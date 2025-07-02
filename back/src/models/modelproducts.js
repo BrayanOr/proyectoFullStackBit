@@ -1,6 +1,6 @@
-import { schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const esquemaProducto = new schema({
+const esquemaProducto = new Schema({
     modelo: { type: String, required: true },
     material: { type: String, required: true },
     precio: { type: Number, required: true },
@@ -12,4 +12,4 @@ const esquemaProducto = new schema({
     timestamps: true
 })
 
-export default model("producto", esquemaProducto);
+export default model("productos", esquemaProducto);

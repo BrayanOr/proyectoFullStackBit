@@ -57,7 +57,7 @@ const controllerUsers = {
             res.json({
                     result: "Fine",
                     message: "Users found successfully",
-                    data: usersFound,
+                    data: allUsersFound,
                 })
         } catch (error) {
             res.json({

@@ -1,5 +1,5 @@
-import multer from 'multer';
-import modelProducts from '../models/modelProducts.js';
+import multer from 'multer';// maneja la subida de archivos
+import modelProducts from '../models/modelproducts.js'; // ✔️ correcto
 
 const controllerProducts = {
     createProduct: async (sol , res)=>{

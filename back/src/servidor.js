@@ -1,3 +1,4 @@
+import path from 'path'
 import express from "express"; // para realizar la conexion con el servidor
 import morgan from "morgan"; //monitrear solicitudes http
 import cors from "cors";
@@ -12,6 +13,7 @@ servidor.use(express.json());
 servidor.use("/users", routerUsers);
 servidor.use('/inicioSesion', routerLogin);
 servidor.use('/products', routerProducts);
+servidor.use('/imagenes', express.static(path.resolve('imagenes')));
 
 servidor.get('/' , (sol, res) => {
     res.status(404).send("No se conecto")

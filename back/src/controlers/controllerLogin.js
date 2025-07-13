@@ -3,70 +3,74 @@ import { generarToken, verificarToken } from "../ayudas/funciones.js";
 import modelusers from "../models/modelusers.js";
 
 const controllerLogin = {
-    iniciarSesion: async (sol, res) => {
+    iniciarSesion: async (sol, res)=>{
         try{
-            const {username, password} = sol.body;
-            userFound = await modelusers.findOne({
+            const {username, password}= sol.body;
+            const userFound = await modelUsers.findOne({
                 email: username,
             });
 
-            const contraseniaValidada = await bcrypt.compare(
-                password,
-                userFound.password
+            const constraseniaValidada = await bcrypt.compare(
+                password,// este es el que ingresa el usuario cuando se va a loguear 
+                userFound.password// validaria la contrasena cifrada almacenada en la bd
             );
-            
-            if(contraseniaValidada){
+
+            if(constraseniaValidada){
                 const token = await generarToken({
                     id: userFound._id,
-                    email: userFound.name
+                    name: userFound.name
                 });
+
                 res.json({
                     result: 'fine',
                     message: 'Access ready',
-                    data: token
-                })
+                    data: token,
+                });
             }else{
                 res.json({
                     result: 'mistake',
                     message: 'Access denied',
-                    data: null
-                });
-            }
-        }catch(error){
-            res.json({
-                result: "Mistake",
-                message: "Error during login",
-                data: error,
-            });
-        }
-    },
-
-    validarToken: async (sol, res) => {
-        try {
-            const  token = sol.params.token;
-            const decodificado = await verificarToken(token);
-
-            if (decodificado && decodificado.id) {
-                res.json({
-                    result: "Fine",
-                    message: "Token is valid",
-                    data: decodificado,
-                })
-            }else {
-                res.json({
-                    result: "Mistake",
-                    message: "Token is not valid",
                     data: null,
                 });
             }
-        }catch (error) {
+
+        }catch(error){
             res.json({
-                result: "Mistake",
-                message: "Error validating token",
+                result: 'mistake',
+                message: 'An error occurred during the users login',
+                data: error,
+            })
+        }
+    },
+
+
+    validarToken:async( sol , res)=>{
+        try{
+            const token = sol.params.token;
+            const decodificado = await verificarToken(token);
+
+            if(decodificado && decodificado.id){
+                res.json({
+                    result: 'fine',
+                    message: 'token valid',
+                    data: decodificado,
+                });
+            }else{
+                res.json({
+                    result: 'mistake',
+                    message: 'token invalid',
+                    data: null,
+                });
+            }
+
+        }catch(error){
+            res.json({
+                result: 'mistake',
+                message: 'Occurred mistake token invalid',
                 data: error,
             });
         }
     }
-}
+};
 
 export default controllerLogin;

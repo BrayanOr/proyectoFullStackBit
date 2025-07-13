@@ -8,7 +8,5 @@ routerUsers.get("/:id", controllerUsers.readUser);
 routerUsers.get("/", controllerUsers.readUsers);
 routerUsers.put("/:id", controllerUsers.upDateUser);
 routerUsers.delete("/:id", controllerUsers.deleteUser);
-routerUsers.post('/forgot-password', forgotPasword);
-
 
 export default routerUsers;

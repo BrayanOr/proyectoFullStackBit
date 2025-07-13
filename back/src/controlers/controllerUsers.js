@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import modelusers from "../models/modelusers.js";
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 const controllerUsers = {
     createUser: async (sol, res) => {
@@ -162,3 +164,4 @@ export const forgotPasword = async (sol , res)=>{
 }
 
 export default controllerUsers;
+

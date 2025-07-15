@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Credential } from '../../interfaces/credential';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators} from  '@angular/forms'
+import { ReactiveFormsModule, FormControl, FormGroup, Validators} from '@angular/forms';
+import { LoginService } from '../../services/login-service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -9,27 +12,31 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators} from  '@angula
   styleUrl: './login.css'
 })
 export class Login {
+  router = inject(Router);
+  loginService : LoginService = inject(LoginService);
   credentialForm = new FormGroup({
-    username: new FormControl('',Validators.required),
-    password: new FormControl('',Validators.required)
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required)
   });
+
   handleSubmit(){
-    // console.log(this.credentialForm)
+    // console.log(this.credentialForm);
     if(this.credentialForm.valid){
       const username = this.credentialForm.value.username;
       const password = this.credentialForm.value.password;
 
       if(typeof username === 'string' && typeof password === 'string'){
-        const credential: Credential = {
-        username,
-        password
+         const credential: Credential ={
+          username,
+          password,
       };
-      console.log(credential);
+      this.loginService.login(credential).subscribe((response:any)=>{
+        console.log("response: ", response);
+        this.router.navigateByUrl('/shop');
+      });
       }
-
-      
     }else{
-      console.log('Error invalid form');
+      console.log("Error invalid form");
     }
   }
 }
